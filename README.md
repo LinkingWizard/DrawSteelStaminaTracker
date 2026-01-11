@@ -2,7 +2,6 @@ Draw Steel Companion – Stamina Tracker
 
 Usage
 1. Enter the character's maximum stamina in the Max Stamina input.
-   Note: Your stamina will remain at zero initially, press "Reset Stamina"
 2. Adjust stamina via the input box and Apply button.
 3. Use +1/+5/+10 buttons to add temporary stamina.
 4. Press "Reset Temp Stamina" to clear temp stamina.
