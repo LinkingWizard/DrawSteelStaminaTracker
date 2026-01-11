@@ -5,9 +5,9 @@ Usage
 2. Adjust stamina via the input box and Apply button.
 3. Use +1/+5/+10 buttons to add temporary stamina.
 4. Press "Reset Temp Stamina" to clear temp stamina.
-5. Press "Recover" to regain a portion of stamina (capped at max).
-6. Press "Reset Stamina" to restore base stamina to max and clear temp stamina.
-7. Observe the stamina bar and condition text to monitor character health.
+5. Press "Recover" to regain stamina according to your recovery value.
+7. Press "Reset Stamina" to restore base stamina to max and clear temp stamina.
+8. Observe the stamina bar and condition text to monitor character health.
 
 Max Stamina Input
 - Players can set the maximum stamina for their character.
