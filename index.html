@@ -224,12 +224,14 @@
     // Update max stamina when input changes, without resetting current stamina
     maxInput.addEventListener('change', () => {
       const newMax = parseInt(maxInput.value, 10) || 0;
-      max = newMax;
-      updateDisplay();
       // Automatically reset stamina if max field is empty
       if (max == 0) {
+      max = newMax
       resetStamina();
+      } else {
+      max = newMax;
       }
+      updateDisplay();
     });
 
     // Apply custom stamina adjustment from input box
