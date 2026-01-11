@@ -47,7 +47,7 @@ Stamina Bar
 - Green: normal stamina above half max.
 - Yellow: Winded (≤ half max).
 - Red: damage below zero.
-- Black: deep negative or Dead.
+- Black: you died, sorry bro.
 - The bar dynamically adjusts segment widths and positions to reflect damage, temp stamina, and over-max stamina.
 
 Technical Details
