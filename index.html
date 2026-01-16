@@ -83,6 +83,10 @@
       margin-bottom: 0.75rem;
     }
 
+    .row.two {
+      grid-template-columns: repeat(2, 1fr);
+    } 
+
     .row.single {
       grid-template-columns: 1fr;
     }
@@ -150,112 +154,167 @@
 <body>
   <div class="app">
 
-  <!-- Setup Screen -->
-  <div class="card" id="setupScreen">
-    <h1>Draw Steel</h1>
-    <h3>Enter Max Stamina</h3>
+<!-- Setup Screen -->
+<div class="card" id="setupScreen">
+  <h1>Draw Steel</h1>
+  <h3>Enter Max Stamina</h3>
 
-    <div class="setup">
-      <input id="maxInput" type="number" placeholder="Max stamina" />
+  <div class="setup">
+    <input id="maxInput" type="number" placeholder="Max stamina" />
+  </div>
+
+  <div class="setup">
+    <input id="maxRecoveriesInput" type="number" placeholder="Max Recoveries" />
+  </div>
+
+  <div class="row single">
+    <button onclick="startTracker()">Next</button>
+  </div>
+</div>
+
+<!-- Stamina Tracker (Hidden on launch) -->
+<div class="card" id="trackerScreen" style="display:none;">
+  <h1>Stamina Tracker</h1>
+  <h3>Mobile users: press “return” to save inputs</h3>
+
+  <div class="stamina-bar" id="staminaBar">
+    <div class="stamina-segment stamina-green" id="staminaGreen"></div>
+    <div class="stamina-segment stamina-yellow" id="staminaYellow"></div>
+    <div class="stamina-segment stamina-red" id="staminaRed"></div>
+    <div class="stamina-segment stamina-black" id="staminaBlack"></div>
+  </div>
+
+  <div class="stamina-display">
+    <div class="stamina-value" id="currentStamina">0</div>
+    <div class="stamina-max">/ <span id="maxStamina">0</span></div>
+  </div>
+
+  <div class="temp-display" id="tempDisplay">
+    Temp Stamina: <span id="tempValue">0</span>
+  </div>
+
+  <!-- Winded/Dying/Dead display -->
+  <div id="conditionDisplay"
+        style="text-align:center;font-size:0.9rem;font-weight:700;display:none;">
+  </div>
+
+  <!-- Action buttons -->
+  <div class="row">
+    <button onclick="openDamageMenu()">Damage</button>
+    <button onclick="openTempMenu()">Temp Stamina</button>
+    <button onclick="openMaxMenu()">Settings</button>
+  </div>
+
+  <!-- Damage Menu -->
+  <div class="card" id="damageMenu" style="display:none;margin-top:1rem;">
+    <h3>Enter Damage</h3>
+
+    <input id="damageInput" type="number" value="0" />
+
+    <div class="row">
+      <button onclick="adjustDamage(1)">+1</button>
+      <button onclick="adjustDamage(5)">+5</button>
+      <button onclick="adjustDamage(10)">+10</button>
+    </div>
+
+    <div class="row">
+      <button onclick="adjustDamage(-1)">-1</button>
+      <button onclick="adjustDamage(-5)">-5</button>
+      <button onclick="adjustDamage(-10)">-10</button>
     </div>
 
     <div class="row single">
-      <button onclick="startTracker()">Next</button>
+      <button onclick="applyDamage()">Apply</button>
     </div>
+  </div>
+
+  <!-- Temp Stamina Menu -->
+  <div class="card" id="tempMenu" style="display:none;margin-top:1rem;">
+    <h3>Enter Temp Stamina</h3>
+
+    <input id="tempInput" type="number" value="0" />
+
+    <div class="row">
+      <button onclick="adjustTemp(1)">+1</button>
+      <button onclick="adjustTemp(5)">+5</button>
+      <button onclick="adjustTemp(10)">+10</button>
+    </div>
+
+    <div class="row">
+      <button onclick="adjustTemp(-1)">-1</button>
+      <button onclick="adjustTemp(-5)">-5</button>
+      <button onclick="adjustTemp(-10)">-10</button>
+    </div>
+
+    <div class="row single">
+      <button onclick="applyTemp()">Apply</button>
+    </div>
+  </div>
+
+  <div class="row single">
+    <button onclick="resetStamina()">Reset Stamina</button>
+  </div>
 </div>
 
-  <!-- Main Menu (Hidden on launch) -->
-  <div class="card" id="trackerScreen" style="display:none;">
-    <h1>Stamina Tracker</h1>
-    <h3>Mobile users: press “return” to save inputs</h3>
+<!-- Recoveries Tracker -->
+<div class="card" id="recoveryTracker" style="margin-top:1rem;display:none;">
+  <h3 style="text-align:center;">Recoveries</h3>  
 
-    <div class="stamina-bar" id="staminaBar">
-      <div class="stamina-segment stamina-green" id="staminaGreen"></div>
-      <div class="stamina-segment stamina-yellow" id="staminaYellow"></div>
-      <div class="stamina-segment stamina-red" id="staminaRed"></div>
-      <div class="stamina-segment stamina-black" id="staminaBlack"></div>
-    </div>
+  <div style="
+    display:grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items:center;
+    text-align:center;
+    margin-bottom:0.5rem;
+  ">
+    <button onclick="adjustRecoveries(-1)">−</button>
 
     <div class="stamina-display">
-      <div class="stamina-value" id="currentStamina">0</div>
-      <div class="stamina-max">/ <span id="maxStamina">0</span></div>
+      <div class="stamina-value" id="recoveryValue">0</div>
+      <div class="stamina-max">/ <span id="recoveryMax">0</span></div>
     </div>
 
-    <div class="temp-display" id="tempDisplay">
-      Temp Stamina: <span id="tempValue">0</span>
+    <button onclick="adjustRecoveries(1)">+</button>
+  </div>
+
+
+  <div class="row two">
+    <button onclick="resetRecoveries()">Reset</button>
+    <button onclick="useRecovery()">Recover</button>
+  </div>
+</div>
+
+<!-- Heroic Resource Tracker -->
+<div class="card" style="margin-top:1rem;">
+  <h3 style="text-align:center;">Heroic Resource</h3>
+
+  <div style="
+    display:grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items:center;
+    text-align:center;
+    margin-top:0.5rem;
+  ">
+    <button onclick="adjustHeroic(-1)">−</button>
+
+    <div id="heroicValue"
+         style="font-size:3rem;font-weight:700;">
+      0
     </div>
-  
-<!-- Winded/Dying/Dead display -->
-<div id="conditionDisplay"
-      style="text-align:center;font-size:0.9rem;font-weight:700;display:none;">
-</div>
 
-<!-- Action buttons -->
-<div class="row">
-  <button onclick="openDamageMenu()">Damage</button>
-  <button onclick="openTempMenu()">Temp Stamina</button>
-  <button onclick="openMaxMenu()">Adjust Max</button>
-</div>
-
-<!-- Damage Menu -->
-<div class="card" id="damageMenu" style="display:none;margin-top:1rem;">
-  <h3>Enter Damage</h3>
-
-  <input id="damageInput" type="number" value="0" />
-
-  <div class="row">
-    <button onclick="adjustDamage(1)">+1</button>
-    <button onclick="adjustDamage(5)">+5</button>
-    <button onclick="adjustDamage(10)">+10</button>
-  </div>
-
-  <div class="row">
-    <button onclick="adjustDamage(-1)">-1</button>
-    <button onclick="adjustDamage(-5)">-5</button>
-    <button onclick="adjustDamage(-10)">-10</button>
-  </div>
-
-  <div class="row single">
-    <button onclick="applyDamage()">Apply</button>
+    <button onclick="adjustHeroic(1)">+</button>
   </div>
 </div>
 
-<!-- Temp Stamina Menu -->
-<div class="card" id="tempMenu" style="display:none;margin-top:1rem;">
-  <h3>Enter Temp Stamina</h3>
-
-  <input id="tempInput" type="number" value="0" />
-
-  <div class="row">
-    <button onclick="adjustTemp(1)">+1</button>
-    <button onclick="adjustTemp(5)">+5</button>
-    <button onclick="adjustTemp(10)">+10</button>
-  </div>
-
-  <div class="row">
-    <button onclick="adjustTemp(-1)">-1</button>
-    <button onclick="adjustTemp(-5)">-5</button>
-    <button onclick="adjustTemp(-10)">-10</button>
-  </div>
-
-  <div class="row single">
-    <button onclick="applyTemp()">Apply</button>
-  </div>
-</div>
-
-<div class="row single">
-  <button onclick="recover()">Recover</button>
-</div>
-
-<div class="row single">
-  <button onclick="resetStamina()">Reset Stamina</button>
-</div>
 
 <script>
   // Stamina variables
   let base = 0;  // Current base stamina
   let max = 0;   // Maximum stamina
   let temp = 0;  // Temporary stamina buffer
+  let heroic = 0; // Heroic resource value
+  let recoveries = 0; // Current recoveries value
+  let maxRecoveries = 0; // Maximum recoveries
 
   // DOM elements
   const currentEl = document.getElementById('currentStamina');
@@ -276,6 +335,13 @@
   const yellowSeg = document.getElementById('staminaYellow');
   const redSeg = document.getElementById('staminaRed');
   const blackSeg = document.getElementById('staminaBlack');
+
+  const heroicEl = document.getElementById('heroicValue');
+  const recoveryEl = document.getElementById('recoveryValue');
+  const maxRecoveriesInput = document.getElementById('maxRecoveriesInput');
+  const recoveryTracker = document.getElementById('recoveryTracker');
+  const recoveryMaxEl = document.getElementById('recoveryMax');
+
 
   // Update max stamina when input changes, without resetting current stamina
   maxInput.addEventListener('change', () => {
@@ -345,22 +411,41 @@
 
   // Opens setup screen on launch
   function startTracker() {
-    const value = parseInt(maxInput.value, 10);
+    const staminaValue = parseInt(maxInput.value, 10);
+    const recoveryValue = parseInt(maxRecoveriesInput.value, 10);
 
-    if (!value || value <= 0) return;
+    if (!staminaValue || staminaValue <= 0) return;
+    if (!recoveryValue || recoveryValue <= 0) return;
 
-    // If max was previously unset, initialize stamina
+    /* ---- Max Stamina ---- */
     if (max === 0) {
-      max = value;
+      max = staminaValue;
       base = max;
     } else {
-      max = value;
-      // DO NOT touch base or temp
+      max = staminaValue;
+      if (base > max) base = max;
+    }
+
+    /* ---- Recoveries ---- */
+    if (maxRecoveries === 0) {
+      // First launch only
+      maxRecoveries = recoveryValue;
+      recoveries = maxRecoveries;
+    } else {
+      // Adjustment later — do NOT reset
+      maxRecoveries = recoveryValue;
+
+      // Clamp recoveries to new max
+      if (recoveries > maxRecoveries) {
+        recoveries = maxRecoveries;
+      }
     }
 
     setupScreen.style.display = 'none';
     trackerScreen.style.display = 'block';
+    recoveryTracker.style.display = 'block';
 
+    updateRecoveriesDisplay();
     updateDisplay();
   }
 
@@ -368,6 +453,7 @@
   function openMaxMenu() {
     setupScreen.style.display = 'block';
     trackerScreen.style.display = 'none';
+    recoveryTracker.style.display = 'none';
 
     // Pre-fill current max stamina
     maxInput.value = max;
@@ -395,7 +481,13 @@
 
   // Changes damage displayed on button press
   function adjustDamage(amount) {
-    damageInput.value = parseInt(damageInput.value || 0, 10) + amount;
+    let current = parseInt(damageInput.value, 10) || 0;
+    current += amount;
+
+    // Prevent button presses from making value negative
+    if (current < 0) current = 0;
+
+    damageInput.value = current;
   }
 
   // Deals damage
@@ -503,6 +595,56 @@
     blackSeg.style.width = black + '%';
     blackSeg.style.left = (green + yellow + red) + '%';
     blackSeg.style.display = black > 0 ? 'block' : 'none';
+  }
+
+  // Updates display
+  function updateRecoveriesDisplay() {
+    recoveryEl.textContent = recoveries;
+    recoveryMaxEl.textContent = maxRecoveries;
+
+    if (recoveries === 0) {
+      recoveryEl.classList.add('under');
+    } else {
+      recoveryEl.classList.remove('under');
+    }
+  }
+
+  // Changes recoveries on button press
+  function adjustRecoveries(amount) {
+    recoveries += amount;
+
+    if (recoveries < 0) recoveries = 0;
+    if (recoveries > maxRecoveries) recoveries = maxRecoveries;
+
+    updateRecoveriesDisplay();
+  }
+
+  // Resets recoveries to max
+  function resetRecoveries() {
+    recoveries = maxRecoveries;
+    updateRecoveriesDisplay();
+  }
+
+  // Removes one recovery and regains stamina
+  function useRecovery() {
+    if (recoveries <= 0) return;
+
+    recoveries--;
+    recover(); // existing stamina recovery logic
+
+    updateRecoveriesDisplay();
+  }
+
+  // Changes heroic resource value
+  function adjustHeroic(amount) {
+    heroic += amount;
+    heroicEl.textContent = heroic;
+
+    if (heroic < 0) {
+      heroicEl.style.color = '#ef4444'; // red
+    } else {
+      heroicEl.style.color = '#e5e7eb'; // normal text
+    }
   }
 </script>
 </body>
