@@ -1,53 +1,63 @@
 Draw Steel Companion – Stamina Tracker
 
 Usage
-1. Enter the character's maximum stamina in the Max Stamina input.
-2. Adjust stamina via the input box and Apply button.
-3. Use +1/+5/+10 buttons to add temporary stamina.
-4. Press "Reset Temp Stamina" to clear temp stamina.
-5. Press "Recover" to regain stamina according to your recovery value.
-7. Press "Reset Stamina" to restore base stamina to max and clear temp stamina.
-8. Observe the stamina bar and condition text to monitor character health.
+1. Enter required information on launch and press next
+2. Press Damage button to open damage menu
+3. Press Temp Stamina button to open temp stamina menu
+4. Press Settings to adjust Max stamina and recoveries
+5. When inputting Damage/Temp Stamina use buttons or enter number into text box
+6. Recoveries and Heroic Resources can be adjusted with the +/- buttons
+7. Pressing Recover uses one recovery and recovers 1/3 of max stamina.
 
 Max Stamina Input
 - Players can set the maximum stamina for their character.
 - Adjusting the max stamina does not reset the current base stamina.
 
-Base Stamina Adjustment
-- Users can adjust the character's base stamina using the input box.
-- Positive or negative values can be entered (e.g., +10, -5).
-- Damage is applied to temporary stamina first, then base stamina.
-- Stamina can go above the max or below zero.
+Stamina Tracker
+- Tracks current stamina relative to max stamina
+- Visual stamina bar shows:
+  - Green: healthy
+  - Yellow: winded
+  - Red: dying
+  - Black: dead
+- Automatically updates condition status
+- Current stamina is clamped when max stamina is lowered
+
+Damage System
+- “Damage” button opens a dedicated damage menu
+- Enter damage via typing or ± buttons
+- Damage always removes temp stamina first, then base stamina
+- Button controls cannot create negative damage values
+- Negative typed values are safely ignored
 
 Temporary Stamina
-- Temp stamina can be added using +1, +5, or +10 buttons.
-- Temporary stamina cannot go below zero.
-- The "Reset Temp Stamina" button sets temp stamina to zero.
-- Temp stamina is displayed separately above the base stamina.
+- Separate Temp Stamina menu
+- Adds temporary stamina that absorbs damage first
+- Cleanly displayed only when temp stamina is present
+- Cannot add negative temp stamina
 
-Recovery
-- The "Recover" button allows spending a recovery to regain stamina.
-- Recovery restores one-third of the max stamina (rounded down).
-- Recovery cannot raise base stamina above the maximum.
+Recoveries
+- Tracks remaining recoveries out of a maximum
+- Recoveries are limited and cannot go below 0 or above max
+- “Recover” button:
+  - Consumes 1 recovery
+  - Restores stamina (⅓ of max, capped)
+- “Reset” button restores recoveries to max
+- Recoveries persist when reopening the settings screen
   
-Reset Stamina
-- The "Reset Stamina" button sets base stamina to max and clears temp stamina.
+Heroic Resource Tracker
+- Simple + / − tracker
+- Starts at 0
+- Can go negative for strain
+- Turns red when below 0
 
-Conditions
-- Based on Draw Steel rules, the app displays the character's condition:
-  - Winded: base stamina ≤ half of max stamina.
-  - Dying: base stamina ≤ 0.
-  - Dead: base stamina ≤ negative half of max stamina.
-- Condition text is bold; Dying and Dead are displayed in red, Winded in yellow.
-- The player can continue adjusting stamina even if Dead.
-
-Stamina Bar
-- A horizontal bar represents the current stamina state visually.
-- Green: normal stamina above half max.
-- Yellow: Winded (≤ half max).
-- Red: damage below zero.
-- Black: you died, sorry bro.
-- The bar dynamically adjusts segment widths and positions to reflect damage, temp stamina, and over-max stamina.
+Setup & Adjustment
+- On launch, user is prompted for:
+  - Max Stamina
+  - Max Recoveries
+- “Settings” button reopens setup
+- Does not reset stamina, temp stamina, or recoveries
+- Clamps values if new max is lower
 
 Technical Details
 - HTML based, no external libraries required.
